@@ -106,9 +106,9 @@ namespace Tests
             _fsm = new FiniteStateMachine(_subStateA);
             _fsm.Add(_subStateB);
 
-            _fsm.Remove(_subStateA);
+            _fsm.Remove(_subStateB);
 
-            Assert.IsTrue(_fsm.States.Contains(_subStateB));
+            Assert.IsTrue(_fsm.States.Contains(_subStateA));
         }
 
         [Test]
