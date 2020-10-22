@@ -30,5 +30,10 @@ namespace Zefugi.Unity.FiniteStateMachine
                 throw new ArgumentException("Can not add a state that has already been added.", "state");
             _states.Add(state);
         }
+
+        public void Remove(State state)
+        {
+            _states.Remove(state);
+        }
     }
 }
