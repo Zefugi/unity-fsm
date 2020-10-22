@@ -87,7 +87,7 @@ namespace Tests
 
             _fsm.Remove(_subStateA);
 
-            Assert.IsTrue(_fsm.States.Contains(_subStateA));
+            Assert.IsFalse(_fsm.States.Contains(_subStateA));
         }
 
         [Test]
