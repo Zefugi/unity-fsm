@@ -59,6 +59,12 @@ namespace Tests
         }
 
         [Test]
+        public void Ctor_TransitionsIntoInitialState()
+        {
+            _subStateA.Received().OnEnter(null);
+        }
+
+        [Test]
         public void Add_AddsStates()
         {
             _fsm.Add(_subStateB);
@@ -235,6 +241,19 @@ namespace Tests
             {
                 _fsm.Transition(_subStateB);
             });
+        }
+
+        [Test]
+        public void Transition_InvokesOnEnterAndOnExit()
+        {
+            _subStateA.Received().OnEnter(null);
+
+            _fsm.Add(_subStateB);
+
+            _fsm.Transition(_subStateB);
+
+            _subStateA.Received().OnExit(_subStateB);
+            _subStateB.Received().OnEnter(_subStateA);
         }
     }
 }
