@@ -11,7 +11,7 @@ namespace Zefugi.Unity.FiniteStateMachine
         private List<State> _states = new List<State>();
         public ReadOnlyCollection<State> States => _states.AsReadOnly();
 
-        public State CurrentState { get; }
+        public State CurrentState { get; private set; }
 
         public FiniteStateMachine(State initialState)
         {
@@ -40,6 +40,11 @@ namespace Zefugi.Unity.FiniteStateMachine
                 throw new ArgumentException("The specified state does not exist.", "state");
 
             _states.Remove(state);
+        }
+
+        public void Transition(State state)
+        {
+            CurrentState = state;
         }
     }
 }
