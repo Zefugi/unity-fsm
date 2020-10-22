@@ -49,7 +49,15 @@ namespace Tests
         }
 
         [Test]
-        public void Add_AddsState()
+        public void Ctor_SetsStates()
+        {
+            _fsm = new FiniteStateMachine(_subStateA, new List<State> { _subStateB });
+
+            Assert.IsTrue(_fsm.States.Contains(_subStateB));
+        }
+
+        [Test]
+        public void Add_AddsStates()
         {
             _fsm = new FiniteStateMachine(_subStateA);
 
