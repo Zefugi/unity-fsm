@@ -259,13 +259,14 @@ namespace Tests
         [Test]
         public void Update_InvokesOnUpdate()
         {
-            _fsm.Update();
+            _fsm.Update(null);
 
-            _subStateA.Received().OnUpdate();
+            _subStateA.Received().OnUpdate(null);
         }
 
-        /* TODO Refactor so that States do not know which machine they are part of.
-         * States will reli on dependency injection.
+        /* TODO Refactor so that States will reli on dependency injection.
+         * TODO States will only receive a reference to their monobehaviour,
+         * when OnUpdate is called.
         */
     }
 }

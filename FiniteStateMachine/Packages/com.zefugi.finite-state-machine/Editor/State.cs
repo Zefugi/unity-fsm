@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Animations;
 using UnityEngine;
 using Zefugi.Unity.FiniteStateMachine;
 
 namespace Zefugi.Unity.FiniteStateMachine
 {
-    public abstract class State
+    public class State
     {
         private FiniteStateMachineSystem _machine;
         public FiniteStateMachineSystem Machine
@@ -32,6 +33,6 @@ namespace Zefugi.Unity.FiniteStateMachine
 
         public virtual void OnExit(State toState) { }
 
-        public virtual void OnUpdate() { }
+        public virtual void OnUpdate(FiniteStateMachineController controller) { }
     }
 }

@@ -87,9 +87,9 @@ namespace Zefugi.Unity.FiniteStateMachine
             CurrentState = state;
         }
 
-        public void Update()
+        public void Update(FiniteStateMachineController controller)
         {
-            CurrentState.OnUpdate();
+            CurrentState.OnUpdate(controller);
         }
     }
 }

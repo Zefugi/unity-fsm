@@ -1,18 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zefugi.Unity.FiniteStateMachine;
 
 public class FiniteStateMachineController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private FiniteStateMachineSystem _machine;
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        _machine?.Update(this);
     }
 }
