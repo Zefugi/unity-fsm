@@ -39,6 +39,9 @@ namespace Zefugi.Unity.FiniteStateMachine
             if (!_states.Contains(state))
                 throw new ArgumentException("The specified state does not exist.", "state");
 
+            if (_states.Count == 1)
+                throw new FiniteStateMachineException("Can not remove the last state from a finite state machine.");
+
             _states.Remove(state);
         }
 
