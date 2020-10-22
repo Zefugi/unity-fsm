@@ -18,5 +18,10 @@ namespace Zefugi.Unity.FiniteStateMachine
             CurrentState = initialState;
             _states.Add(initialState);
         }
+
+        public void Add(State state)
+        {
+            _states.Add(state);
+        }
     }
 }

@@ -44,7 +44,11 @@ namespace Tests
         [Test]
         public void Add_AddsState()
         {
+            _fsm = new FiniteStateMachine(_subStateA);
 
+            _fsm.Add(_subStateB);
+
+            Assert.IsTrue(_fsm.States.Contains(_subStateB));
         }
 
         [Test]
