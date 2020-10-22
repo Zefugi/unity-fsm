@@ -85,7 +85,11 @@ namespace Zefugi.Unity.FiniteStateMachine
             CurrentState?.OnExit(state);
             state?.OnEnter(CurrentState);
             CurrentState = state;
-            
+        }
+
+        public void Update()
+        {
+            CurrentState.OnUpdate();
         }
     }
 }

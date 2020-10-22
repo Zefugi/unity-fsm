@@ -255,5 +255,17 @@ namespace Tests
             _subStateA.Received().OnExit(_subStateB);
             _subStateB.Received().OnEnter(_subStateA);
         }
+
+        [Test]
+        public void Update_InvokesOnUpdate()
+        {
+            _fsm.Update();
+
+            _subStateA.Received().OnUpdate();
+        }
+
+        /* TODO Refactor so that States do not know which machine they are part of.
+         * States will reli on dependency injection.
+        */
     }
 }
