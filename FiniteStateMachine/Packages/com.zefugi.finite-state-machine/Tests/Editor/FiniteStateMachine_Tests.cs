@@ -80,6 +80,15 @@ namespace Tests
             });
         }
 
+        public void Add_DoesNotSetCurrenState()
+        {
+            _fsm = new FiniteStateMachine(_subStateA);
+
+            _fsm.Add(_subStateB);
+
+            Assert.AreEqual(_subStateA, _fsm.CurrentState);
+        }
+
         [Test]
         public void Remove_RemovesState()
         {
