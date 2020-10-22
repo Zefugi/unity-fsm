@@ -5,7 +5,7 @@ using Zefugi.Unity.FiniteStateMachine;
 
 namespace Zefugi.Unity.FiniteStateMachine
 {
-    public class State
+    public abstract class State
     {
         public FiniteStateMachine Machine { get; internal set; }
     }
