@@ -9,24 +9,48 @@ using Zefugi.Unity.FiniteStateMachine;
 
 namespace Tests
 {
+    [TestFixture]
     public class FiniteStateMachine_Tests
     {
+        private FiniteStateMachine _fsm;
+        private State _subStateA;
+        private State _subStateB;
+
         [Test]
         public void Ctor_SetsInitialState()
         {
-            var initState = Substitute.For<State>();
-            var fsm = new FiniteStateMachine(initState);
+            _fsm = new FiniteStateMachine(_subStateA);
 
-            Assert.AreEqual(initState, fsm.CurrentState);
+            Assert.AreEqual(_subStateA, _fsm.CurrentState);
         }
 
         [Test]
         public void Ctor_AddsInitialState()
         {
-            var initState = Substitute.For<State>();
-            var fsm = new FiniteStateMachine(initState);
+            _fsm = new FiniteStateMachine(_subStateA);
 
-            Assert.IsTrue(fsm.States.Contains(initState));
+            Assert.IsTrue(_fsm.States.Contains(_subStateA));
+        }
+
+        [Test]
+        public void Ctor_Throws_IfInitialStateIsNull()
+        {
+            Assert.Throws<FiniteStateMachineException>(() =>
+            {
+                _fsm = new FiniteStateMachine(null);
+            });
+        }
+
+        [Test]
+        public void Add_AddsState()
+        {
+
+        }
+
+        [Test]
+        public void Add_Throws_IfStateExists()
+        {
+
         }
     }
 }
