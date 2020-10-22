@@ -69,6 +69,12 @@ namespace Zefugi.Unity.FiniteStateMachine
 
         public void Transition(State state)
         {
+            if (state == null)
+                throw new ArgumentNullException("state");
+
+            if (!_states.Contains(state))
+                throw new ArgumentException("The specified state does not exist.", "state");
+
             CurrentState = state;
         }
     }

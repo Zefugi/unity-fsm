@@ -220,5 +220,27 @@ namespace Tests
 
             Assert.AreEqual(_subStateB, _fsm.CurrentState);
         }
+
+        [Test]
+        public void Transition_Throws_IfStateIsNull()
+        {
+            _fsm = new FiniteStateMachine(_subStateA);
+
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                _fsm.Transition(null);
+            });
+        }
+
+        [Test]
+        public void Transition_Throws_IfNotContainingState()
+        {
+            _fsm = new FiniteStateMachine(_subStateA);
+
+            Assert.Throws<ArgumentException>(() =>
+            {
+                _fsm.Transition(_subStateB);
+            });
+        }
     }
 }
