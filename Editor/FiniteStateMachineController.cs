@@ -15,6 +15,8 @@ namespace Zefugi.Unity.FiniteStateMachine
 
         public FiniteStateMachine(State initialState)
         {
+            if (initialState == null)
+                throw new ArgumentNullException("initialState");
             CurrentState = initialState;
             _states.Add(initialState);
         }

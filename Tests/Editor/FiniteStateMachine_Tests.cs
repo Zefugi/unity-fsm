@@ -16,6 +16,13 @@ namespace Tests
         private State _subStateA;
         private State _subStateB;
 
+        [SetUp]
+        public void Setup()
+        {
+            _subStateA = Substitute.For<State>();
+            _subStateB = Substitute.For<State>();
+        }
+
         [Test]
         public void Ctor_SetsInitialState()
         {
@@ -35,7 +42,7 @@ namespace Tests
         [Test]
         public void Ctor_Throws_IfInitialStateIsNull()
         {
-            Assert.Throws<FiniteStateMachineException>(() =>
+            Assert.Throws<ArgumentNullException>(() =>
             {
                 _fsm = new FiniteStateMachine(null);
             });
@@ -54,7 +61,23 @@ namespace Tests
         [Test]
         public void Add_Throws_IfStateExists()
         {
+            _fsm = new FiniteStateMachine(_subStateA);
 
+            Assert.Throws<ArgumentException>(() =>
+            {
+                _fsm.Add(_subStateA);
+            });
+        }
+
+        [Test]
+        public void Add_Throws_IfStateIsNull()
+        {
+            _fsm = new FiniteStateMachine(_subStateA);
+
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                _fsm.Add(null);
+            });
         }
     }
 }
