@@ -29,13 +29,17 @@ namespace Zefugi.Unity.FiniteStateMachine
             }
         }
 
-        public FiniteStateMachine(State initialState)
+        public FiniteStateMachine(State initialState, IEnumerable<State> states = null)
         {
             if (initialState == null)
                 throw new ArgumentNullException("initialState");
 
             Add(initialState);
             InitialState = CurrentState = initialState;
+
+            if(states != null)
+                foreach (var state in states)
+                    _states.Add(state);
         }
 
         public void Add(State state)
