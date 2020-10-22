@@ -179,7 +179,12 @@ namespace Tests
         [Test]
         public void InitialStateSet_SetsInitialState()
         {
+            _fsm = new FiniteStateMachine(_subStateA);
+            _fsm.Add(_subStateB);
 
+            _fsm.InitialState = _subStateB;
+
+            Assert.AreEqual(_subStateB, _fsm.InitialState);
         }
 
         [Test]
