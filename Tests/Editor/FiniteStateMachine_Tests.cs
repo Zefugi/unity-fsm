@@ -202,7 +202,12 @@ namespace Tests
         [Test]
         public void InitialStateSet_Throws_IfDoesNotContainValue()
         {
+            _fsm = new FiniteStateMachine(_subStateA);
 
+            Assert.Throws<ArgumentException>(() =>
+            {
+                _fsm.InitialState = _subStateB;
+            });
         }
 
         [Test]
