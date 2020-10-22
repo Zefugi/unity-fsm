@@ -13,7 +13,15 @@ namespace Zefugi.Unity.FiniteStateMachine
 
         public State CurrentState { get; private set; }
 
-        public State InitialState { get; set; }
+        private State _initialState;
+        public State InitialState
+        {
+            get => _initialState;
+            set
+            {
+                _initialState = value;
+            }
+        }
 
         public FiniteStateMachine(State initialState)
         {
