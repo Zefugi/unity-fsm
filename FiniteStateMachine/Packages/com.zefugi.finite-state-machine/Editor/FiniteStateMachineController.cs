@@ -13,12 +13,15 @@ namespace Zefugi.Unity.FiniteStateMachine
 
         public State CurrentState { get; private set; }
 
+        public State InitialState { get; private set; }
+
         public FiniteStateMachine(State initialState)
         {
             if (initialState == null)
                 throw new ArgumentNullException("initialState");
-            CurrentState = initialState;
-            _states.Add(initialState);
+
+            InitialState = CurrentState = initialState;
+            Add(initialState);
         }
 
         public void Add(State state)
@@ -28,6 +31,7 @@ namespace Zefugi.Unity.FiniteStateMachine
 
             if (_states.Contains(state))
                 throw new ArgumentException("Can not add a state that has already been added.", "state");
+
             _states.Add(state);
         }
 
@@ -42,6 +46,7 @@ namespace Zefugi.Unity.FiniteStateMachine
             if (_states.Count == 1)
                 throw new FiniteStateMachineException("Can not remove the last state from a finite state machine.");
 
+            Transition(InitialState);
             _states.Remove(state);
         }
 
