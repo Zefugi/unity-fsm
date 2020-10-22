@@ -23,6 +23,9 @@ namespace Zefugi.Unity.FiniteStateMachine
 
         public void Add(State state)
         {
+            if (state == null)
+                throw new ArgumentNullException("state");
+
             _states.Add(state);
         }
     }
