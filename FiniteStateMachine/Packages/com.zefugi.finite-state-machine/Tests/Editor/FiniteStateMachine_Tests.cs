@@ -19,5 +19,14 @@ namespace Tests
 
             Assert.AreEqual(initState, fsm.CurrentState);
         }
+
+        [Test]
+        public void Ctor_AddsInitialState()
+        {
+            var initState = Substitute.For<State>();
+            var fsm = new FiniteStateMachine(initState);
+
+            Assert.IsTrue(fsm.States.Contains(initState));
+        }
     }
 }
