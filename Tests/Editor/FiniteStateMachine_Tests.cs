@@ -12,7 +12,7 @@ namespace Tests
     [TestFixture]
     public class FiniteStateMachine_Tests
     {
-        private FiniteStateMachine _fsm;
+        private FiniteStateMachineSystem _fsm;
         private State _subStateA;
         private State _subStateB;
 
@@ -21,12 +21,14 @@ namespace Tests
         {
             _subStateA = Substitute.For<State>();
             _subStateB = Substitute.For<State>();
+
+            _fsm = new FiniteStateMachineSystem(_subStateA);
         }
 
         [Test]
         public void Ctor_SetsInitialState()
         {
-            _fsm = new FiniteStateMachine(_subStateA);
+            _fsm = new FiniteStateMachineSystem(_subStateA);
 
             Assert.AreEqual(_subStateA, _fsm.CurrentState);
         }
@@ -34,7 +36,7 @@ namespace Tests
         [Test]
         public void Ctor_AddsInitialState()
         {
-            _fsm = new FiniteStateMachine(_subStateA);
+            _fsm = new FiniteStateMachineSystem(_subStateA);
 
             Assert.IsTrue(_fsm.States.Contains(_subStateA));
         }
@@ -44,14 +46,14 @@ namespace Tests
         {
             Assert.Throws<ArgumentNullException>(() =>
             {
-                _fsm = new FiniteStateMachine(null);
+                _fsm = new FiniteStateMachineSystem(null);
             });
         }
 
         [Test]
         public void Ctor_SetsStates()
         {
-            _fsm = new FiniteStateMachine(_subStateA, new List<State> { _subStateB });
+            _fsm = new FiniteStateMachineSystem(_subStateA, new List<State> { _subStateB });
 
             Assert.IsTrue(_fsm.States.Contains(_subStateB));
         }
@@ -59,8 +61,6 @@ namespace Tests
         [Test]
         public void Add_AddsStates()
         {
-            _fsm = new FiniteStateMachine(_subStateA);
-
             _fsm.Add(_subStateB);
 
             Assert.IsTrue(_fsm.States.Contains(_subStateB));
@@ -69,8 +69,6 @@ namespace Tests
         [Test]
         public void Add_Throws_IfStateExists()
         {
-            _fsm = new FiniteStateMachine(_subStateA);
-
             Assert.Throws<ArgumentException>(() =>
             {
                 _fsm.Add(_subStateA);
@@ -80,27 +78,35 @@ namespace Tests
         [Test]
         public void Add_Throws_IfStateIsNull()
         {
-            _fsm = new FiniteStateMachine(_subStateA);
-
             Assert.Throws<ArgumentNullException>(() =>
             {
                 _fsm.Add(null);
             });
         }
 
+        [Test]
         public void Add_DoesNotSetCurrenState()
         {
-            _fsm = new FiniteStateMachine(_subStateA);
-
             _fsm.Add(_subStateB);
 
             Assert.AreEqual(_subStateA, _fsm.CurrentState);
         }
 
         [Test]
+        public void Add_SetsStateMachine_ThusInvokingOnMachineSetOrOnMachineChanged()
+        {
+            _fsm.Add(_subStateB);
+
+            _subStateB.Received().OnMachineSet();
+
+            var fsm2 = new FiniteStateMachineSystem(_subStateB);
+
+            _subStateB.Received().OnMachineChanged();
+        }
+
+        [Test]
         public void Remove_RemovesState()
         {
-            _fsm = new FiniteStateMachine(_subStateA);
             _fsm.Add(_subStateB);
 
             _fsm.Remove(_subStateB);
@@ -111,7 +117,6 @@ namespace Tests
         [Test]
         public void Remove_OnlyRemovesSpecifiedState()
         {
-            _fsm = new FiniteStateMachine(_subStateA);
             _fsm.Add(_subStateB);
 
             _fsm.Remove(_subStateB);
@@ -122,8 +127,6 @@ namespace Tests
         [Test]
         public void Remove_Throws_IfStateDoesNotExist()
         {
-            _fsm = new FiniteStateMachine(_subStateA);
-
             Assert.Throws<ArgumentException>(() =>
             {
                 _fsm.Remove(_subStateB);
@@ -133,8 +136,6 @@ namespace Tests
         [Test]
         public void Remove_Throws_IfRemovingLastState()
         {
-            _fsm = new FiniteStateMachine(_subStateA);
-
             Assert.Throws<FiniteStateMachineException>(() =>
             {
                 _fsm.Remove(_subStateA);
@@ -144,7 +145,6 @@ namespace Tests
         [Test]
         public void Remove_TransitionsToInitialState()
         {
-            _fsm = new FiniteStateMachine(_subStateA);
             _fsm.Add(_subStateB);
 
             _fsm.Transition(_subStateB);
@@ -156,7 +156,6 @@ namespace Tests
         [Test]
         public void Remove_Throws_IfRemovingInitialState()
         {
-            _fsm = new FiniteStateMachine(_subStateA);
             _fsm.Add(_subStateB);
 
             Assert.Throws<ArgumentException>(() =>
@@ -168,8 +167,6 @@ namespace Tests
         [Test]
         public void Remove_Throws_IfStateIsNull()
         {
-            _fsm = new FiniteStateMachine(_subStateA);
-
             Assert.Throws<ArgumentNullException>(() =>
             {
                 _fsm.Remove(null);
@@ -179,15 +176,12 @@ namespace Tests
         [Test]
         public void InitialStateGet_ReturnsInitialState()
         {
-            _fsm = new FiniteStateMachine(_subStateA);
-
             Assert.AreEqual(_subStateA, _fsm.InitialState);
         }
 
         [Test]
         public void InitialStateSet_SetsInitialState()
         {
-            _fsm = new FiniteStateMachine(_subStateA);
             _fsm.Add(_subStateB);
 
             _fsm.InitialState = _subStateB;
@@ -198,7 +192,6 @@ namespace Tests
         [Test]
         public void InitialStateSet_Throws_IfValueIsNull()
         {
-            _fsm = new FiniteStateMachine(_subStateA);
             _fsm.Add(_subStateB);
 
             Assert.Throws<ArgumentNullException>(() =>
@@ -210,8 +203,6 @@ namespace Tests
         [Test]
         public void InitialStateSet_Throws_IfDoesNotContainValue()
         {
-            _fsm = new FiniteStateMachine(_subStateA);
-
             Assert.Throws<ArgumentException>(() =>
             {
                 _fsm.InitialState = _subStateB;
@@ -221,7 +212,6 @@ namespace Tests
         [Test]
         public void Transition_ChangesCurrentState()
         {
-            _fsm = new FiniteStateMachine(_subStateA);
             _fsm.Add(_subStateB);
 
             _fsm.Transition(_subStateB);
@@ -232,8 +222,6 @@ namespace Tests
         [Test]
         public void Transition_Throws_IfStateIsNull()
         {
-            _fsm = new FiniteStateMachine(_subStateA);
-
             Assert.Throws<ArgumentNullException>(() =>
             {
                 _fsm.Transition(null);
@@ -243,8 +231,6 @@ namespace Tests
         [Test]
         public void Transition_Throws_IfNotContainingState()
         {
-            _fsm = new FiniteStateMachine(_subStateA);
-
             Assert.Throws<ArgumentException>(() =>
             {
                 _fsm.Transition(_subStateB);

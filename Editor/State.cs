@@ -7,13 +7,20 @@ namespace Zefugi.Unity.FiniteStateMachine
 {
     public abstract class State
     {
-        private FiniteStateMachine _machine;
-        public FiniteStateMachine Machine
+        private FiniteStateMachineSystem _machine;
+        public FiniteStateMachineSystem Machine
         {
             get => _machine;
             set
             {
+                bool changed = _machine != null;
+
                 _machine = value;
+
+                if (changed)
+                    OnMachineChanged();
+                else
+                    OnMachineSet();
             }
         }
 
