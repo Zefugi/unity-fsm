@@ -123,9 +123,14 @@ namespace Tests
         }
 
         [Test]
-        public void Remove_Throws_IfNoStatesLeft()
+        public void Remove_Throws_IfRemovingLastState()
         {
+            _fsm = new FiniteStateMachine(_subStateA);
 
+            Assert.Throws<FiniteStateMachineException>(() =>
+            {
+                _fsm.Remove(_subStateA);
+            });
         }
 
         [Test]
