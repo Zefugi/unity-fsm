@@ -26,6 +26,8 @@ namespace Zefugi.Unity.FiniteStateMachine
             if (state == null)
                 throw new ArgumentNullException("state");
 
+            if (_states.Contains(state))
+                throw new ArgumentException("Can not add a state that has already been added.", "state");
             _states.Add(state);
         }
     }
