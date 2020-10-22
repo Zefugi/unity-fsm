@@ -93,6 +93,7 @@ namespace Tests
         public void Remove_RemovesState()
         {
             _fsm = new FiniteStateMachine(_subStateA);
+            _fsm.Add(_subStateB);
 
             _fsm.Remove(_subStateA);
 
@@ -122,6 +123,24 @@ namespace Tests
         }
 
         [Test]
+        public void Remove_Throws_IfNoStatesLeft()
+        {
+
+        }
+
+        [Test]
+        public void Remove_TransitionsToInitialState()
+        {
+
+        }
+
+        [Test]
+        public void Remove_Throws_IfRemovingInitialState()
+        {
+
+        }
+
+        [Test]
         public void Remove_Throws_IfStateIsNull()
         {
             _fsm = new FiniteStateMachine(_subStateA);
@@ -130,6 +149,30 @@ namespace Tests
             {
                 _fsm.Remove(null);
             });
+        }
+
+        [Test]
+        public void InitialStateGet_ReturnsInitialState()
+        {
+
+        }
+
+        [Test]
+        public void InitialStateSet_SetsInitialState()
+        {
+
+        }
+
+        [Test]
+        public void InitialStateSet_Throws_IfValueIsNull()
+        {
+
+        }
+
+        [Test]
+        public void InitialStateSet_Throws_IfDoesNotContainValue()
+        {
+
         }
 
         [Test]
