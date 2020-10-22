@@ -1,0 +1,12 @@
+{
+  "name": "com.zefugi.finite-state-machine",
+  "version": "0.1.0",
+  "displayName": "Finite State Machine",
+  "author": {
+    "name": "Zefugi",
+    "url": "https://github.com/Zefugi/unity-fsm"
+  },
+  "description": "A Finite State Machine controller for Unity.",
+  "type": "library",
+  "unity": "2020.1"
+}
