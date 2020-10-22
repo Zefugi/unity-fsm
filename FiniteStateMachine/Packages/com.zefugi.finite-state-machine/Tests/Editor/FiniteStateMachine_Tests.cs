@@ -148,7 +148,13 @@ namespace Tests
         [Test]
         public void Remove_Throws_IfRemovingInitialState()
         {
+            _fsm = new FiniteStateMachine(_subStateA);
+            _fsm.Add(_subStateB);
 
+            Assert.Throws<ArgumentException>(() =>
+            {
+                _fsm.Remove(_subStateA);
+            });
         }
 
         [Test]
