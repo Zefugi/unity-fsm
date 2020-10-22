@@ -104,7 +104,12 @@ namespace Tests
         [Test]
         public void Remove_Throws_IfStateDoesNotExist()
         {
+            _fsm = new FiniteStateMachine(_subStateA);
 
+            Assert.Throws<ArgumentException>(() =>
+            {
+                _fsm.Remove(_subStateB);
+            });
         }
 
         [Test]
