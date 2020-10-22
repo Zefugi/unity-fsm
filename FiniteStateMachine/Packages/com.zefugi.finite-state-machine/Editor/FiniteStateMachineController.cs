@@ -19,6 +19,9 @@ namespace Zefugi.Unity.FiniteStateMachine
             get => _initialState;
             set
             {
+                if (value == null)
+                    throw new ArgumentNullException("InitialState");
+
                 _initialState = value;
             }
         }

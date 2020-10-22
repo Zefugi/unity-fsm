@@ -190,7 +190,13 @@ namespace Tests
         [Test]
         public void InitialStateSet_Throws_IfValueIsNull()
         {
+            _fsm = new FiniteStateMachine(_subStateA);
+            _fsm.Add(_subStateB);
 
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                _fsm.InitialState = null;
+            });
         }
 
         [Test]
