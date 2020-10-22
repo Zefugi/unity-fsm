@@ -11,7 +11,7 @@ namespace Zefugi.Unity.FiniteStateMachine
 
         private void Start()
         {
-            Debug.Log($"Untrue is {Untrue}.");
+            Debug.Log($"Untrue is: {Untrue}.");
         }
     }
 }
