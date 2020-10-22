@@ -35,11 +35,13 @@ namespace Zefugi.Unity.FiniteStateMachine
                 throw new ArgumentNullException("initialState");
 
             Add(initialState);
-            InitialState = CurrentState = initialState;
+            InitialState = initialState;
 
             if (states != null)
                 foreach (var state in states)
                     _states.Add(state);
+
+            Transition(initialState);
         }
 
         public void Add(State state)
@@ -80,7 +82,10 @@ namespace Zefugi.Unity.FiniteStateMachine
             if (!_states.Contains(state))
                 throw new ArgumentException("The specified state does not exist.", "state");
 
+            CurrentState?.OnExit(state);
+            state?.OnEnter(CurrentState);
             CurrentState = state;
+            
         }
     }
 }
