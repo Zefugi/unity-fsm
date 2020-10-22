@@ -33,6 +33,9 @@ namespace Zefugi.Unity.FiniteStateMachine
 
         public void Remove(State state)
         {
+            if (!_states.Contains(state))
+                throw new ArgumentException("The specified state does not exist.", "state");
+
             _states.Remove(state);
         }
     }
