@@ -122,5 +122,16 @@ namespace Tests
                 _fsm.Remove(null);
             });
         }
+
+        [Test]
+        public void Transition_ChangesCurrentState()
+        {
+            _fsm = new FiniteStateMachine(_subStateA);
+            _fsm.Add(_subStateB);
+
+            _fsm.Transition(_subStateB);
+
+            Assert.AreEqual(_subStateB, _fsm.CurrentState);
+        }
     }
 }
