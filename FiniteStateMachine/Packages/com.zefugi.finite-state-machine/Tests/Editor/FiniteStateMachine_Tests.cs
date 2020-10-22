@@ -171,7 +171,9 @@ namespace Tests
         [Test]
         public void InitialStateGet_ReturnsInitialState()
         {
+            _fsm = new FiniteStateMachine(_subStateA);
 
+            Assert.AreEqual(_subStateA, _fsm.InitialState);
         }
 
         [Test]
