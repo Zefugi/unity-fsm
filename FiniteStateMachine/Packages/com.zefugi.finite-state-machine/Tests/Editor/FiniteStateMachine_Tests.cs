@@ -89,6 +89,17 @@ namespace Tests
         }
 
         [Test]
+        public void Remove_OnlyRemovesSpecifiedState()
+        {
+            _fsm = new FiniteStateMachine(_subStateA);
+            _fsm.Add(_subStateB);
+
+            _fsm.Remove(_subStateA);
+
+            Assert.IsTrue(_fsm.States.Contains(_subStateB));
+        }
+
+        [Test]
         public void Remove_Throws_IfStateDoesNotExist()
         {
 
