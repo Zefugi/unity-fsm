@@ -22,6 +22,9 @@ namespace Zefugi.Unity.FiniteStateMachine
                 if (value == null)
                     throw new ArgumentNullException("InitialState");
 
+                if (!_states.Contains(value))
+                    throw new ArgumentException("Can not set InitialState due to state not being part of this statemachine.", "InitialState");
+
                 _initialState = value;
             }
         }
@@ -31,8 +34,8 @@ namespace Zefugi.Unity.FiniteStateMachine
             if (initialState == null)
                 throw new ArgumentNullException("initialState");
 
-            InitialState = CurrentState = initialState;
             Add(initialState);
+            InitialState = CurrentState = initialState;
         }
 
         public void Add(State state)
