@@ -136,7 +136,13 @@ namespace Tests
         [Test]
         public void Remove_TransitionsToInitialState()
         {
+            _fsm = new FiniteStateMachine(_subStateA);
+            _fsm.Add(_subStateB);
 
+            _fsm.Transition(_subStateB);
+            _fsm.Remove(_subStateB);
+
+            Assert.AreEqual(_subStateA, _fsm.CurrentState);
         }
 
         [Test]
