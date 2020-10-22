@@ -79,5 +79,25 @@ namespace Tests
                 _fsm.Add(null);
             });
         }
+
+        [Test]
+        public void Remove_RemovesState()
+        {
+            _fsm = new FiniteStateMachine(_subStateA);
+
+            _fsm.Remove(_subStateA);
+        }
+
+        [Test]
+        public void Remove_Throws_IfStateDoesNotExist()
+        {
+
+        }
+
+        [Test]
+        public void Remove_Throws_IfStateIsNull()
+        {
+
+        }
     }
 }
