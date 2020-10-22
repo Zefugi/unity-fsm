@@ -46,6 +46,9 @@ namespace Zefugi.Unity.FiniteStateMachine
             if (_states.Count == 1)
                 throw new FiniteStateMachineException("Can not remove the last state from a finite state machine.");
 
+            if (state == InitialState)
+                throw new ArgumentException("Can not remove the initial state. Try setting initial state before removing.", "state");
+
             Transition(InitialState);
             _states.Remove(state);
         }
