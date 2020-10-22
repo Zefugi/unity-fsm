@@ -115,7 +115,12 @@ namespace Tests
         [Test]
         public void Remove_Throws_IfStateIsNull()
         {
+            _fsm = new FiniteStateMachine(_subStateA);
 
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                _fsm.Remove(null);
+            });
         }
     }
 }
