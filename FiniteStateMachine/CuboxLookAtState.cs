@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Zefugi.Unity.FiniteStateMachine;
 
-public class CuboxIdleState : State
+public class CuboxLookAtState : State
 {
-    public CuboxLookAtState LookState { get; set; }
+    public CuboxIdleState IdleState { get; set; }
 }
