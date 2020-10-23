@@ -8,7 +8,7 @@ namespace Zefugi.Unity.FiniteStateMachine
 {
     public class FiniteStateMachineSystem
     {
-        public event EventHandler<State> Transitioning;
+        public event EventHandler<State> TransitioningTo;
 
         private List<State> _states = new List<State>();
         public ReadOnlyCollection<State> States => _states.AsReadOnly();
@@ -69,6 +69,7 @@ namespace Zefugi.Unity.FiniteStateMachine
                 throw new FiniteStateMachineException("Please call Start, before calling Transition.");
 
             CurrentState?.OnExit(state);
+            TransitioningTo?.Invoke(this, state);
             state?.OnEnter(CurrentState);
             CurrentState = state;
         }
