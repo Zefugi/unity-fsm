@@ -10,7 +10,8 @@ public class CuboxIdleState : State
 {
     public CuboxLookAtState LookState { get; set; }
 
-    public override void OnUpdate()
+    public override void OnEnter(State fromState)
     {
+        Machine.Controller.transform.LookAt(Vector3.zero);
     }
 }

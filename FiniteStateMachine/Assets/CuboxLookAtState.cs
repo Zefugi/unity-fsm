@@ -12,6 +12,11 @@ public class CuboxLookAtState : State
 
     public Vector3 LookAtPoint { get; set; }
 
+    public override void OnEnter(State toState)
+    {
+        LookAtPoint = Vector3.zero;
+    }
+
     public override void OnUpdate()
     {
         if (LookAtPoint != null)
