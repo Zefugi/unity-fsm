@@ -71,12 +71,12 @@ namespace Zefugi.Unity.FiniteStateMachine
             CurrentState = state;
         }
 
-        public void Update(FiniteStateMachineController controller)
+        public void Update()
         {
             if (CurrentState == null)
                 throw new FiniteStateMachineException("Please call Start, before calling Update.");
 
-            CurrentState.OnUpdate(controller);
+            CurrentState.OnUpdate();
         }
 
         public void Start(State initialState, FiniteStateMachineController controller)

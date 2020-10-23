@@ -186,9 +186,9 @@ namespace Tests
         [Test]
         public void Update_InvokesOnUpdate()
         {
-            _fsm.Update(null);
+            _fsm.Update();
 
-            _subStateA.Received().OnUpdate(null);
+            _subStateA.Received().OnUpdate();
         }
 
         [Test]
@@ -198,7 +198,7 @@ namespace Tests
 
             Assert.Throws<FiniteStateMachineException>(() =>
             {
-                _fsm.Update(null);
+                _fsm.Update();
             });
         }
     }
