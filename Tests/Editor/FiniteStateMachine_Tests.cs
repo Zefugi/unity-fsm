@@ -16,6 +16,10 @@ namespace Tests
         private State _subStateA;
         private State _subStateB;
 
+        /* 
+         * TODO Transition takes a FSMController parameter and sets Controller on FSMSystem.
+         */
+
         [SetUp]
         public void Setup()
         {
@@ -26,42 +30,11 @@ namespace Tests
         }
 
         [Test]
-        public void Ctor_SetsInitialState()
-        {
-            _fsm = new FiniteStateMachineSystem(_subStateA);
-
-            Assert.AreEqual(_subStateA, _fsm.CurrentState);
-        }
-
-        [Test]
-        public void Ctor_AddsInitialState()
-        {
-            _fsm = new FiniteStateMachineSystem(_subStateA);
-
-            Assert.IsTrue(_fsm.States.Contains(_subStateA));
-        }
-
-        [Test]
-        public void Ctor_Throws_IfInitialStateIsNull()
-        {
-            Assert.Throws<ArgumentNullException>(() =>
-            {
-                _fsm = new FiniteStateMachineSystem(null);
-            });
-        }
-
-        [Test]
         public void Ctor_SetsStates()
         {
-            _fsm = new FiniteStateMachineSystem(_subStateA, new List<State> { _subStateB });
+            _fsm = new FiniteStateMachineSystem(new List<State> { _subStateA, _subStateB });
 
             Assert.IsTrue(_fsm.States.Contains(_subStateB));
-        }
-
-        [Test]
-        public void Ctor_TransitionsIntoInitialState()
-        {
-            _subStateA.Received().OnEnter(null);
         }
 
         [Test]
@@ -93,6 +66,7 @@ namespace Tests
         [Test]
         public void Add_DoesNotSetCurrenState()
         {
+            _fsm.Transition(_subStateA);
             _fsm.Add(_subStateB);
 
             Assert.AreEqual(_subStateA, _fsm.CurrentState);
@@ -149,20 +123,10 @@ namespace Tests
         }
 
         [Test]
-        public void Remove_TransitionsToInitialState()
+        public void Remove_Throws_IfRemovingCurrent()
         {
             _fsm.Add(_subStateB);
-
-            _fsm.Transition(_subStateB);
-            _fsm.Remove(_subStateB);
-
-            Assert.AreEqual(_subStateA, _fsm.CurrentState);
-        }
-
-        [Test]
-        public void Remove_Throws_IfRemovingInitialState()
-        {
-            _fsm.Add(_subStateB);
+            _fsm.Transition(_subStateA);
 
             Assert.Throws<ArgumentException>(() =>
             {
@@ -176,42 +140,6 @@ namespace Tests
             Assert.Throws<ArgumentNullException>(() =>
             {
                 _fsm.Remove(null);
-            });
-        }
-
-        [Test]
-        public void InitialStateGet_ReturnsInitialState()
-        {
-            Assert.AreEqual(_subStateA, _fsm.InitialState);
-        }
-
-        [Test]
-        public void InitialStateSet_SetsInitialState()
-        {
-            _fsm.Add(_subStateB);
-
-            _fsm.InitialState = _subStateB;
-
-            Assert.AreEqual(_subStateB, _fsm.InitialState);
-        }
-
-        [Test]
-        public void InitialStateSet_Throws_IfValueIsNull()
-        {
-            _fsm.Add(_subStateB);
-
-            Assert.Throws<ArgumentNullException>(() =>
-            {
-                _fsm.InitialState = null;
-            });
-        }
-
-        [Test]
-        public void InitialStateSet_Throws_IfDoesNotContainValue()
-        {
-            Assert.Throws<ArgumentException>(() =>
-            {
-                _fsm.InitialState = _subStateB;
             });
         }
 
@@ -246,6 +174,7 @@ namespace Tests
         [Test]
         public void Transition_InvokesOnEnterAndOnExit()
         {
+            _fsm.Transition(_subStateA);
             _subStateA.Received().OnEnter(null);
 
             _fsm.Add(_subStateB);
@@ -259,9 +188,19 @@ namespace Tests
         [Test]
         public void Update_InvokesOnUpdate()
         {
+            _fsm.Transition(_subStateA);
             _fsm.Update(null);
 
             _subStateA.Received().OnUpdate(null);
+        }
+
+        [Test]
+        public void Update_ThrowsIfCurrentStateIsNull()
+        {
+            Assert.Throws<FiniteStateMachineException>(() =>
+            {
+                _fsm.Update(null);
+            });
         }
     }
 }
