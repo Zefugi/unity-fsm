@@ -6,7 +6,7 @@ using Zefugi.Unity.FiniteStateMachine;
 
 namespace Zefugi.Unity.FiniteStateMachine
 {
-    public class State
+    public abstract class State
     {
         private FiniteStateMachineSystem _machine;
         public FiniteStateMachineSystem Machine
