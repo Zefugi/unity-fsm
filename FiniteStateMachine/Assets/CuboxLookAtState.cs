@@ -9,4 +9,8 @@ using Zefugi.Unity.FiniteStateMachine;
 public class CuboxLookAtState : State
 {
     public CuboxIdleState IdleState { get; set; }
+
+    public override void OnUpdate()
+    {
+    }
 }
