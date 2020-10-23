@@ -29,11 +29,11 @@ public class CuboxManager : MonoBehaviour
     {
         UpdateInput();
 
-        if(_leftButtonDown)
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo, 100, ClickColliderLayerMask))
-                UpdateSelection(hitInfo.transform);
-            else
-                UpdateSelection(null);
+        if (CuboxWasLeftClicked(out CuboxController cubox))
+            UpdateSelection(cubox);
+
+        if (PointWasRightClicked(out Vector3 point))
+            UpdateLookAtPointIfSelectedIsLookAtState(point);
     }
 
     private void UpdateInput()
@@ -42,15 +42,40 @@ public class CuboxManager : MonoBehaviour
         _rightButtonDown = Input.GetMouseButtonDown(1);
     }
 
-    private void UpdateSelection(Transform selected)
+    private bool CuboxWasLeftClicked(out CuboxController cubox)
     {
-        var box = selected?.GetComponentInParent<CuboxController>();
+        cubox = _leftButtonDown
+            && Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo, 100, ClickColliderLayerMask)
+            ? hitInfo.transform.parent.GetComponent<CuboxController>() : null;
 
-        if (box == Selected)
+        return cubox != null;
+    }
+
+    private bool PointWasRightClicked(out Vector3 point)
+    {
+        point = _rightButtonDown
+            && Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo, 100)
+            ? hitInfo.point : Vector3.zero;
+        
+        return point != Vector3.zero;
+    }
+
+    private void UpdateSelection(CuboxController cubox)
+    {
+        if (cubox == Selected)
             return;
 
         Selected?.Deselect();
-        Selected = box;
+        Selected = cubox;
         Selected?.Select();
+    }
+
+    private void UpdateLookAtPointIfSelectedIsLookAtState(Vector3 point)
+    {
+        if (Selected == null
+            || !(Selected.StateMachine.CurrentState is CuboxLookAtState))
+            return;
+
+        (Selected.StateMachine.CurrentState as CuboxLookAtState).LookAtPoint = point;
     }
 }

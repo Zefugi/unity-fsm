@@ -5,6 +5,9 @@ using Zefugi.Unity.FiniteStateMachine;
 
 public class CuboxController : FiniteStateMachineController
 {
+    [SerializeField]
+    public string CurrentStateName = "None";
+
     public override FiniteStateMachineSystem StateMachine { get; protected set; }
 
     private CuboxIdleState _idleState;
@@ -24,6 +27,8 @@ public class CuboxController : FiniteStateMachineController
                 _lookState
             }
             );
+
+        StateMachine.TransitioningTo += (s, e) => { CurrentStateName = (e != null ? e.ToString() : "None"); };
 
         StateMachine.Start(_idleState, this);
     }
