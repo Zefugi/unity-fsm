@@ -87,6 +87,9 @@ namespace Zefugi.Unity.FiniteStateMachine
             if (initialState == null)
                 throw new ArgumentNullException("initialState");
 
+            if(controller != null && controller.StateMachine == null)
+                throw new ArgumentException("The StateMachine of the specified controller is null.", "controller");
+
             CurrentState = initialState;
             Controller = controller;
             Transition(initialState);
