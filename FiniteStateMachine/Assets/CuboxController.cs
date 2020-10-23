@@ -18,9 +18,9 @@ public class CuboxController : FiniteStateMachineController
         _lookState.IdleState = _idleState;
 
         StateMachine = new FiniteStateMachineSystem(
-            _idleState,
             new List<State>
             {
+                _idleState,
                 _lookState
             }
             );

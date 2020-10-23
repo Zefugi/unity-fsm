@@ -13,35 +13,15 @@ namespace Zefugi.Unity.FiniteStateMachine
 
         public State CurrentState { get; private set; }
 
-        private State _initialState;
-        public State InitialState
+        public FiniteStateMachineSystem(State state)
         {
-            get => _initialState;
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException("InitialState");
-
-                if (!_states.Contains(value))
-                    throw new ArgumentException("Can not set InitialState due to state not being part of this statemachine.", "InitialState");
-
-                _initialState = value;
-            }
+            Add(state);
         }
 
-        public FiniteStateMachineSystem(State initialState, IEnumerable<State> states = null)
+        public FiniteStateMachineSystem(IEnumerable<State> states)
         {
-            if (initialState == null)
-                throw new ArgumentNullException("initialState");
-
-            Add(initialState);
-            InitialState = initialState;
-
-            if (states != null)
-                foreach (var state in states)
-                    _states.Add(state);
-
-            Transition(initialState);
+            foreach (var state in states)
+                Add(state);
         }
 
         public void Add(State state)
@@ -67,10 +47,9 @@ namespace Zefugi.Unity.FiniteStateMachine
             if (_states.Count == 1)
                 throw new FiniteStateMachineException("Can not remove the last state from a finite state machine.");
 
-            if (state == InitialState)
-                throw new ArgumentException("Can not remove the initial state. Try setting initial state before removing.", "state");
+            if (state == CurrentState)
+                throw new ArgumentException("Can not remove the current state. Try setting transitioning to another state before removing.", "state");
 
-            Transition(InitialState);
             _states.Remove(state);
         }
 
@@ -89,6 +68,9 @@ namespace Zefugi.Unity.FiniteStateMachine
 
         public void Update(FiniteStateMachineController controller)
         {
+            if (CurrentState == null)
+                throw new FiniteStateMachineException("Please call Transition atleast once, before calling Update.");
+
             CurrentState.OnUpdate(controller);
         }
     }
