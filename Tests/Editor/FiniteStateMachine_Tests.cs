@@ -263,10 +263,5 @@ namespace Tests
 
             _subStateA.Received().OnUpdate(null);
         }
-
-        /* TODO Refactor so that States will reli on dependency injection.
-         * TODO States will only receive a reference to their monobehaviour,
-         * when OnUpdate is called.
-        */
     }
 }
