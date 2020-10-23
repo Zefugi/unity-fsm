@@ -184,6 +184,16 @@ namespace Tests
         }
 
         [Test]
+        public void Transition_RaisesTrasitioning()
+        {
+            _fsm.Add(_subStateB);
+            bool transitioningRaised = false;
+            _fsm.Transitioning += (s, e) => { transitioningRaised = true;  };
+
+            _fsm.Transition(_subStateB);
+        }
+
+        [Test]
         public void Update_InvokesOnUpdate()
         {
             _fsm.Update();
