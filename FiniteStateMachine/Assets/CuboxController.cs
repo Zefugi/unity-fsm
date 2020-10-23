@@ -28,7 +28,7 @@ public class CuboxController : FiniteStateMachineController
             }
             );
 
-        StateMachine.TransitioningTo += (s, e) => { CurrentStateName = (e != null ? e.ToString() : "None"); };
+        StateMachine.TransitioningTo += (s, state) => { CurrentStateName = (state != null ? state.ToString() : "None"); };
 
         StateMachine.Start(_idleState, this);
     }
