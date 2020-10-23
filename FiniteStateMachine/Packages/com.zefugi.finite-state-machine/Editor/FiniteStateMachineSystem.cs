@@ -13,6 +13,8 @@ namespace Zefugi.Unity.FiniteStateMachine
 
         public State CurrentState { get; private set; }
 
+        public FiniteStateMachineController Controller { get; private set; }
+
         public FiniteStateMachineSystem(State state)
         {
             Add(state);
@@ -61,6 +63,9 @@ namespace Zefugi.Unity.FiniteStateMachine
             if (!_states.Contains(state))
                 throw new ArgumentException("The specified state does not exist.", "state");
 
+            if (CurrentState == null)
+                throw new FiniteStateMachineException("Please call Start, before calling Transition.");
+
             CurrentState?.OnExit(state);
             state?.OnEnter(CurrentState);
             CurrentState = state;
@@ -69,9 +74,19 @@ namespace Zefugi.Unity.FiniteStateMachine
         public void Update(FiniteStateMachineController controller)
         {
             if (CurrentState == null)
-                throw new FiniteStateMachineException("Please call Transition atleast once, before calling Update.");
+                throw new FiniteStateMachineException("Please call Start, before calling Update.");
 
             CurrentState.OnUpdate(controller);
+        }
+
+        public void Start(State initialState, FiniteStateMachineController controller)
+        {
+            if (initialState == null)
+                throw new ArgumentNullException("initialState");
+
+            CurrentState = initialState;
+            Controller = controller;
+            Transition(initialState);
         }
     }
 }

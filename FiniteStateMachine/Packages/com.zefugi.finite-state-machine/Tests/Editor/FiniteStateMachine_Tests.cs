@@ -17,7 +17,7 @@ namespace Tests
         private State _subStateB;
 
         /* 
-         * TODO Transition takes a FSMController parameter and sets Controller on FSMSystem.
+         * TODO Finish fixing tests. Start needs to be run.
          */
 
         [SetUp]
@@ -27,6 +27,7 @@ namespace Tests
             _subStateB = Substitute.For<State>();
 
             _fsm = new FiniteStateMachineSystem(_subStateA);
+            _fsm.Start(_subStateA, null);
         }
 
         [Test]
@@ -62,11 +63,10 @@ namespace Tests
                 _fsm.Add(null);
             });
         }
-
+        
         [Test]
         public void Add_DoesNotSetCurrenState()
         {
-            _fsm.Transition(_subStateA);
             _fsm.Add(_subStateB);
 
             Assert.AreEqual(_subStateA, _fsm.CurrentState);
@@ -126,7 +126,6 @@ namespace Tests
         public void Remove_Throws_IfRemovingCurrent()
         {
             _fsm.Add(_subStateB);
-            _fsm.Transition(_subStateA);
 
             Assert.Throws<ArgumentException>(() =>
             {
@@ -174,8 +173,7 @@ namespace Tests
         [Test]
         public void Transition_InvokesOnEnterAndOnExit()
         {
-            _fsm.Transition(_subStateA);
-            _subStateA.Received().OnEnter(null);
+            _subStateA.Received().OnEnter(_subStateA);
 
             _fsm.Add(_subStateB);
 
@@ -188,7 +186,6 @@ namespace Tests
         [Test]
         public void Update_InvokesOnUpdate()
         {
-            _fsm.Transition(_subStateA);
             _fsm.Update(null);
 
             _subStateA.Received().OnUpdate(null);
@@ -197,6 +194,8 @@ namespace Tests
         [Test]
         public void Update_ThrowsIfCurrentStateIsNull()
         {
+            _fsm = new FiniteStateMachineSystem(_subStateA);
+
             Assert.Throws<FiniteStateMachineException>(() =>
             {
                 _fsm.Update(null);
