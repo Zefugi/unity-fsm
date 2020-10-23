@@ -3,12 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zefugi.Unity.FiniteStateMachine;
 
-public class FiniteStateMachineController : MonoBehaviour
+public abstract class FiniteStateMachineController : MonoBehaviour
 {
-    private FiniteStateMachineSystem _machine;
-
-    private void Update()
-    {
-        _machine?.Update(this);
-    }
+    public abstract FiniteStateMachineSystem StateMachine { get; }
 }
