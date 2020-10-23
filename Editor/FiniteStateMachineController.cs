@@ -5,5 +5,5 @@ using Zefugi.Unity.FiniteStateMachine;
 
 public abstract class FiniteStateMachineController : MonoBehaviour
 {
-    public abstract FiniteStateMachineSystem StateMachine { get; }
+    public abstract FiniteStateMachineSystem StateMachine { get; protected set; }
 }
