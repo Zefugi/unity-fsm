@@ -32,4 +32,14 @@ public class CuboxController : FiniteStateMachineController
     {
         StateMachine.Update();
     }
+
+    public void Select()
+    {
+        StateMachine.Transition(_lookState);
+    }
+
+    public void Deselect()
+    {
+        StateMachine.Transition(_idleState);
+    }
 }
