@@ -8,6 +8,8 @@ namespace Zefugi.Unity.FiniteStateMachine
 {
     public class FiniteStateMachineSystem
     {
+        public event EventHandler<State> Transitioning;
+
         private List<State> _states = new List<State>();
         public ReadOnlyCollection<State> States => _states.AsReadOnly();
 
@@ -44,7 +46,7 @@ namespace Zefugi.Unity.FiniteStateMachine
                 throw new ArgumentNullException("state");
 
             if (!_states.Contains(state))
-                throw new ArgumentException("The specified state does not exist.", "state");
+                throw new ArgumentException("The specified state is not part of this state machine.", "state");
 
             if (_states.Count == 1)
                 throw new FiniteStateMachineException("Can not remove the last state from a finite state machine.");
@@ -61,7 +63,7 @@ namespace Zefugi.Unity.FiniteStateMachine
                 throw new ArgumentNullException("state");
 
             if (!_states.Contains(state))
-                throw new ArgumentException("The specified state does not exist.", "state");
+                throw new ArgumentException("The specified state is not part of this state machine.", "state");
 
             if (CurrentState == null)
                 throw new FiniteStateMachineException("Please call Start, before calling Transition.");
