@@ -24,10 +24,12 @@ public class CuboxController : FiniteStateMachineController
                 _lookState
             }
             );
+
+        StateMachine.Start(_idleState, this);
     }
 
     void Update()
     {
-        StateMachine.Update(this);
+        StateMachine.Update();
     }
 }

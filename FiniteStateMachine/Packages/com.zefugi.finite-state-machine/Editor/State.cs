@@ -33,6 +33,6 @@ namespace Zefugi.Unity.FiniteStateMachine
 
         public virtual void OnExit(State toState) { }
 
-        public virtual void OnUpdate(FiniteStateMachineController controller) { }
+        public virtual void OnUpdate() { }
     }
 }
