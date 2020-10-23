@@ -188,9 +188,11 @@ namespace Tests
         {
             _fsm.Add(_subStateB);
             bool transitioningRaised = false;
-            _fsm.Transitioning += (s, e) => { transitioningRaised = true;  };
+            _fsm.TransitioningTo += (s, e) => { transitioningRaised = true;  };
 
             _fsm.Transition(_subStateB);
+
+            Assert.IsTrue(transitioningRaised);
         }
 
         [Test]
