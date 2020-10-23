@@ -16,10 +16,6 @@ namespace Tests
         private State _subStateA;
         private State _subStateB;
 
-        /* 
-         * TODO Finish fixing tests. Start needs to be run.
-         */
-
         [SetUp]
         public void Setup()
         {
