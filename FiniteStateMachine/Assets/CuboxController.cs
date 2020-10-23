@@ -7,18 +7,21 @@ public class CuboxController : FiniteStateMachineController
 {
     public override FiniteStateMachineSystem StateMachine { get; protected set; }
 
+    private CuboxIdleState _idleState;
+    private CuboxLookAtState _lookState;
+
     void Start()
     {
-        var idleState = new CuboxIdleState();
-        var lookState = new CuboxLookAtState();
-        idleState.LookState = lookState;
-        lookState.IdleState = idleState;
+        _idleState = new CuboxIdleState();
+        _lookState = new CuboxLookAtState();
+        _idleState.LookState = _lookState;
+        _lookState.IdleState = _idleState;
 
         StateMachine = new FiniteStateMachineSystem(
-            idleState,
+            _idleState,
             new List<State>
             {
-                lookState
+                _lookState
             }
             );
     }
